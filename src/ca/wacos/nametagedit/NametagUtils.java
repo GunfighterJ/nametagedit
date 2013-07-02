@@ -1,10 +1,10 @@
 package ca.wacos.nametagedit;
 
-import net.minecraft.server.v1_5_R3.*;
+import net.minecraft.server.v1_6_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R1.CraftWorld;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,20 +15,20 @@ import java.util.UUID;
 
 /**
  * This class contains various tools for formatting strings, printing information, and saving information.
- * 
+ *
  * @author Levi Webb
  *
  */
 class NametagUtils {
-	
+
 	/**
 	 * Replaces '&' symbols with '§' symbols when a formatting code follows it.
-	 * 
+	 *
 	 * @param str the {@link String} to format
 	 * @return the formatted {@link String}
 	 */
 	static String formatColors(String str) {
-		
+
 		char[] chars = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 				'a', 'b', 'c', 'd', 'e', 'f', 'n', 'r', 'l', 'k', 'o', 'm'};
 		char[] array = str.toCharArray();
@@ -42,19 +42,19 @@ class NametagUtils {
 		}
 		return new String(array);
 	}
-	
+
 	/**
 	 * A fancy formatting method for putting the given array of {@link String} objects into
 	 * a box, labelled by a title, which is printed out in the console.
-	 * 
+	 *
 	 * @param paragraph  the array of {@link String} objects to print
 	 * @param title  the title of the box
 	 */
 	static void box(String [] paragraph, String title) {
-		
+
 		ArrayList<String> buffer = new ArrayList<String>();
 		String at = "";
-		
+
 		int side1 = (int) Math.round(25 - ((title.length() + 4) / 2d));
 		int side2 = (int) (26 - ((title.length() + 4) / 2d));
 		at += '+';
@@ -91,7 +91,7 @@ class NametagUtils {
 		}
 		buffer.add("|                                                   |");
 		buffer.add("+---------------------------------------------------+");
-		
+
 		System.out.println(" ");
 		for (String line : buffer.toArray(new String[buffer.size()])) {
 			System.out.println(line);
@@ -100,7 +100,7 @@ class NametagUtils {
 	}
 	/**
 	 * Trims off the end of the given {@link String} to make the lenth a maximum of 16 characters long.
-	 * 
+	 *
 	 * @param input  the {@link String} to format.
 	 * @return  the formatted {@link String}
 	 */
@@ -115,7 +115,7 @@ class NametagUtils {
 	}
 	/**
 	 * Returns the {@link String} within the quotes if the given string is enclosed with quotation marks.
-	 * 
+	 *
 	 * @param rawValue the {@link String} to format
 	 * @return the formatted {@link String}
 	 */
@@ -180,19 +180,19 @@ class NametagUtils {
 			return;
 		try {
 			NBTTagCompound compound = NBTCompressedStreamTools.a(new FileInputStream(file));
-			
+
 			compound.set("Pos", new NBTTagList());
 			compound.getList("Pos").add(new NBTTagDouble("", l.getX()));
 			compound.getList("Pos").add(new NBTTagDouble("", l.getY()));
 			compound.getList("Pos").add(new NBTTagDouble("", l.getZ()));
-			
+
 		    compound.set("Rotation", new NBTTagList());
 		    compound.getList("Rotation").add(new NBTTagFloat("", l.getYaw()));
 		    compound.getList("Rotation").add(new NBTTagFloat("", l.getPitch()));
-			
+
 			compound.setLong("WorldUUIDLeast", l.getWorld().getUID().getLeastSignificantBits());
 			compound.setLong("WorldUUIDMost", l.getWorld().getUID().getMostSignificantBits());
-			
+
 			NBTCompressedStreamTools.a(compound, new FileOutputStream(file));
 		}
 		catch (FileNotFoundException e) {
@@ -203,7 +203,7 @@ class NametagUtils {
 	 * Compares a newer version {@link String} to an older one. If the newer version is more recent,
 	 * this this method returns true, and if not, this method will return false. If there is an
 	 * error parsing the version numbers, this method will return false.
-	 * 
+	 *
 	 * @param old the original version string
 	 * @param newer the version string to compare this to; the <i>newer</i> string.
 	 * @return true if newer is a newer version, false if not.
